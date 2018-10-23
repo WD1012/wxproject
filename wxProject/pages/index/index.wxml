@@ -1,0 +1,157 @@
+<wxs module="m1">
+  var filter = {
+    priceToFix: function (value) {
+      return Number(value).toFixed(2);
+    },
+    adBackFormat: function(value){
+      var backImg = "";
+      for(var i = 0; i < value.length; i++){
+        if(value[i].type == 4){
+          backImg = value[i].imgurl
+        }
+      }
+      return backImg;
+    },
+    checkImgUrl: function(arr){
+      var result = true;
+      for(var i = 0; i < arr.length ; i++){
+        if(arr[i].imgurl.length == 0){
+          result = false;
+          break;
+        }
+      }
+      return result;
+    }
+  }
+  module.exports = {
+    priceToFix: filter.priceToFix,
+    adBackFormat:filter.adBackFormat,
+    checkImgUrl: filter.checkImgUrl
+  }
+</wxs>
+
+<!--index.wxml-->
+<view class="main-container">
+  <view style='display:{{ childPage == "1" ? "block" : "none" }}'>
+    <view class='header-banner'>
+       <swiper autoplay="true" interval="3000">
+        <block wx:key="banner" wx:for="{{bannerList}}">
+          <swiper-item>
+            <image src="{{item.ret_img}}" bindtap="bannerTap" data-url="{{item.ret_url}}" class="slide-image" width="355" height="150"/>
+          </swiper-item>
+        </block>
+      </swiper> 
+    </view>
+
+
+    <view wx:for="{{sortList}}" wx:key="{{ad-box}}" wx:for-item="sortObj">
+      <!-- 单图广告区  -->
+      <view class='ad-simple' wx:if="{{sortObj.module_type == 1 && m1.checkImgUrl(sortObj.data)}}">
+        <image mode="widthFix" bindtap='adTap' data-gourl='{{sortObj.data[0].url}}' wx:if="sortObj.data[0].imgurl > 0" data-gotype="{{sortObj.data[0].type}}" src='{{sortObj.data[0].imgurl}}'></image> 
+      </view>
+        
+      <!--双图广告区  -->
+      <view class='ad-double'  wx:if="{{sortObj.module_type == 2 && m1.checkImgUrl(sortObj.data)}}">
+        <image wx:for="{{sortObj.data}}" wx:key="{{ad-double}}"  bindtap='adTap' data-gourl='{{douObj.url}}' data-gotype="{{douObj.type}}"  wx:for-item="douObj" src='{{douObj.imgurl}}'></image>
+      </view>
+      
+      <!-- 多图广告曲 -->
+      <view class='ad-multi' wx:if="{{sortObj.module_type == 3 && sortObj.data.length > 3}}" style='background-image:url({{m1.adBackFormat(sortObj.data)}})'>
+      
+        <scroll-view class="ad-multi-scroll" scroll-x style="width: 100%">
+          <image wx:for-index="idx" data-mm="{{idx != sortObj.data.length -1}}" data-idx="{{idx}}" wx:for="{{sortObj.data}}" wx:key="{{ad-multi}}" wx:if="{{multObj.imgurl.length > 0 && idx != sortObj.data.length -1}}"  bindtap='adTap' data-gourl='{{multObj.url}}' data-gotype="{{multObj.type}}" wx:for-item="multObj"  src='{{multObj.imgurl}}'></image>
+          <image bindtap='adMultiMore' data-gourl="{{sortObj.data[sortObj.data.length-1].url}}"  src='{{serverUrl}}/image/more-icon.png'></image> 
+        </scroll-view>
+      </view>
+      
+      <!-- 品牌新车-->
+      <view class='cars-list-block' wx:if="{{sortObj.module_type == 4  && sortObj.data.length > 0}}">
+        <view class='cars-list-title'>
+          <view class='cars-title-line'></view>
+          <span>品牌新车</span>
+          <span class="more-btn" bindtap='changeChildPage' data-btn="2">全部<span class="right-arrow"><image src='{{serverUrl}}/image/rightArrow.png'></image></span></span>
+        </view>
+        <view class='car-icon-list'>
+          <view class='car-icon-item' bindtap='carSortTap' data-brandtype="new" data-brandname="{{newcarListObj.brand_name}}" data-brandid='{{newcarListObj.brand_id}}' wx:for="{{sortObj.data}}" wx:for-item="newcarListObj" wx:key="newcaricon"><image src='{{newcarListObj.brand_icon}}'></image><span>{{newcarListObj.brand_name}}</span></view>
+          <view class='car-icon-item' wx:for="{{newcarPriceList}}" wx:key="newcarPrice" bindtap="carPriceSortTap" data-pricetype="new" data-pricename='{{item.name}}' data-price="{{item.value}}"><span>{{item.name}}</span></view>
+        </view>
+      </view>
+
+      <!--品牌二手车  -->
+      <view class='cars-list-block'  wx:if="{{sortObj.module_type == 5 && sortObj.data.length > 0}}">
+        <view class='cars-list-title'>
+          <view class='cars-title-line'></view>
+          <span>品牌二手车</span>
+          <span class="more-btn" bindtap='changeChildPage' data-btn="3">全部<span class="right-arrow"><image src='{{serverUrl}}/image/rightArrow.png'></image></span></span>
+        </view>
+        <view class='car-icon-list'>
+          <view class='car-icon-item' bindtap='carSortTap' data-brandtype="old" data-brandname="{{oldcarListObj.brand_name}}" data-brandid='{{oldcarListObj.brand_id}}' wx:for="{{sortObj.data}}" wx:for-item="oldcarListObj" wx:key="oldcaricon"><image src='{{oldcarListObj.brand_icon}}'></image><span>{{oldcarListObj.brand_name}}</span></view>
+          <view class='car-icon-item' wx:for="{{newcarPriceList}}" wx:key="newcarPrice" bindtap="carPriceSortTap" data-pricetype="old" data-pricename='{{item.name}}' data-price="{{item.value}}"><span>{{item.name}}</span></view>
+        </view>
+      </view>
+
+
+    </view>
+    
+
+    <view class='cars-list-block'>
+      <view class='cars-list-title'>
+        <view class='cars-title-line'></view>
+        <span>推荐新车</span>
+        <span class="more-btn" bindtap='changeChildPage' data-btn="2">更多<span class="right-arrow"><image src='{{serverUrl}}/image/rightArrow.png'></image></span></span>
+      </view>
+      <view class='cars-list-box'>
+        <view wx:key='{{key}}' class='cars-list-item' wx:for="{{newCarList}}" data-carinfo="{{item}}" data-cartype="new" bindtap='goDet'>
+          <view class='cars-list-item-l'>
+            <image src='{{item.img}}'></image>
+          </view>
+          <view class='cars-list-item-r'>
+            <p class="cars-name">{{item.model_name}}</p>
+            <p class="cars-price" style="white-space: nowrap;">{{m1.priceToFix(item.dealer_price)}}万元</p>
+          </view>
+        </view>
+        
+      </view>
+    </view>
+
+    <view class='cars-list-block'>
+      <view class='cars-list-title'>
+        <view class='cars-title-line'></view>
+        <span>推荐二手车</span>
+        <span class="more-btn" bindtap='changeChildPage' data-btn="3">更多<span class="right-arrow"><image src='{{serverUrl}}/image/rightArrow.png'></image></span></span>
+      </view>
+      <view class='cars-list-box'>
+        <view wx:key='{{key}}' class='cars-list-item' wx:for="{{oldCarList}}" data-carinfo="{{item}}" data-cartype="old" bindtap='goDet'>
+          <view class='cars-list-item-l'>
+            <image src='{{item.img}}'></image>
+          </view>
+          <view class='cars-list-item-r'>
+            <p class="cars-name">{{item.model_name}}</p>
+            <p class="cars-info">{{item.manufacture}} / {{item.mileage}}万公里</p>
+            <p class="cars-price">{{m1.priceToFix(item.dealer_price)}}万元</p>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+  <!-- 底部  -->
+  <view class='bottom-box'>
+    <view bindtap='changeChildPage' data-btn="1" class="bottom-btn btn_1 {{ childPage == '1' ? 'btn_act' :''}}">
+      <image src="{{serverUrl}}/image/btn_1{{ childPage == '1' ? '_act' :''}}.png"></image>
+      <p>首页</p>
+    </view> 
+    <view bindtap='changeChildPage' data-btn="2" class="bottom-btn btn_2 {{ childPage == '2' ? 'btn_act' :''}}">
+      <image src="{{serverUrl}}/image/btn_2{{ childPage == '2' ? '_act' :''}}.png"></image>
+      <p>新车</p>
+    </view>
+    <view bindtap='changeChildPage' data-btn="3" class="bottom-btn btn_1 {{ childPage == '3' ? 'btn_act' :''}}">
+      <image src="{{serverUrl}}/image/btn_3{{ childPage == '3' ? '_act' :''}}.png"></image>
+      <p>二手车</p>
+    </view> 
+  </view>
+  
+  <!--退出  -->
+  <view class='login-out-btn' bindtap="loginOutFun" data-token="{{mtoken}}" style="{{mtoken ? '':'display:none'}}"><image src='{{serverUrl}}/image/exit_icon.png'></image></view>
+</view>

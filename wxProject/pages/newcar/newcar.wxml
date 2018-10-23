@@ -1,0 +1,251 @@
+<wxs module="m1">
+  var filter = {
+    priceToFix: function (value) {
+      return Number(value).toFixed(2);
+    },
+    maxStrSub: function (value){
+      return value.slice(0,8)+'...';
+    },
+    colorSub: function(value){
+      return value.split("|")[0];
+    }
+  }
+  module.exports = {
+    priceToFix: filter.priceToFix,
+    maxStrSub:  filter.maxStrSub,
+    colorSub:  filter.colorSub,
+  }
+</wxs>
+
+ <scroll-view scroll-y="{{!menuChoose_5}}" style='position:absolute;width:100%;height:100%;left:0;top:0;' bindscrolltolower="loadMore"> 
+<!--index.wxml-->
+<!-- <view class="main-container" style='{{menuChoose_5 ? "overflow:hidden" : ""}};height:{{deviceHeight*2}}rpx'> -->
+  
+  <!-- 固定头部  -->
+  
+  <view class='header-fixed'>
+    <view class='header-search'>
+      <input type='text' disabled='disabled' bindtap='tapSearch' value="{{car_keyword}}" maxlength='20' bindinput='searchInputListen' placeholder='请输入搜索关键词'></input>
+      <image hidden='{{car_keyword.length > 0 ? true : false}}' src='{{serverUrl}}/image/search.png'></image>
+    </view>
+    <view class='header-menu'>
+      <view bindtap='checkFilter' data-menu="m1" class='header-menu-item {{menuChoose_1 ? "header-choosed" : " "}}'>
+          <span class="{{(car_brand_id ||car_series_id) && seriesName ? 'searchHaveVal' : ''}}">{{(car_brand_id ||car_series_id) && seriesName ? seriesName: '车系'}}</span><span style="{{(car_brand_id ||car_series_id) && seriesName ? 'display:none' : ''}}" class="arrow_bot"></span>
+      </view>
+      <view bindtap='checkFilter' data-menu="m2" class='header-menu-item {{menuChoose_2 ? "header-choosed" : ""}}'>
+          <span class="{{chooseCity.city_name ? 'searchHaveVal' : ''}}">{{chooseCity.city_name ? chooseCity.city_name: '地区'}}</span><span style="{{chooseCity.city_name ? 'display:none' : ''}}" class="arrow_bot"></span>
+      </view>
+      <view bindtap='checkFilter' data-menu="m3" class='header-menu-item {{menuChoose_3 ? "header-choosed" : " "}}'>
+          <span class="{{car_dealer_price && carPriceName ? 'searchHaveVal' : ''}}">{{car_dealer_price && carPriceName ? carPriceName: '价格'}}</span><span style="{{car_dealer_price && carPriceName ? 'display:none' : ''}}" class="arrow_bot"></span>
+      </view>
+      <view bindtap='checkFilter' data-menu="m4" class='header-menu-item {{menuChoose_4 ? "header-choosed" : " "}}'>
+          <span class="{{car_order_type && carOrderName ? 'searchHaveVal' : ''}}">{{car_order_type && carOrderName ? carOrderName: '排序'}}</span><span style="{{car_order_type && carOrderName && carPriceName ? 'display:none' : ''}}" class="arrow_bot"></span>
+      </view>
+      <view bindtap='checkFilter' data-menu="m5" class='header-menu-item {{menuChoose_5 ? "header-choosed" : " "}}'>
+          <span>筛选</span><span class="arrow_bot"></span>
+      </view>
+    </view>
+    
+    <!-- 头部内菜单  -->
+    <view class='popup-box ' hidden="{{!(menuChoose_1 || menuChoose_2 || menuChoose_3 ||menuChoose_4)}}">
+      
+      <!-- 品牌  -->
+      <view class='city-wrapper' hidden='{{!menuChoose_1}}'> 
+        <block>
+          <scroll-view style='padding-top:181rpx;' class="list-scroll {{config.search?'top':''}}" scroll-y="true" scroll-into-view="{{jumpNum}}" scroll-with-animation="{{config.animation}}">
+            <view class="brand_all" catchtap='brandAll'>不限</view>
+            <view id="{{'index'+index}}" wx:for="{{city}}" wx:key="key">
+              <view class='list-title'>{{item.title}}</view>
+              <view class='{{index===0&&config.horizontal&&item.type==="hot"?"list-horizontal":""}}'>
+                <view class='list-name {{idx === 0 ?"":"border"}}' wx:for="{{item.car}}" wx:for-item="city" wx:for-index="idx" wx:key="city" data-detail="{{city}}" catchtap='detailMt'>
+                  <image src='{{city.brand_icon}}'></image> {{city.brand_name}}
+                </view>
+              </view>
+
+            </view>
+          </scroll-view>
+          <view class='list-right-wrapper'>
+            <view class='right-item' wx:for="{{rightArr}}" wx:key="rightArr" data-id="{{'index'+index}}" catchtap='jumpMtCar'>
+              {{rightArr[index]}}
+            </view>
+          </view>
+        </block>
+        <view class='brand-mask' bindtap='hidModelList' hidden='{{brandStep != 2}}'></view>
+        <view class='brand-list-box' hidden='{{brandStep != 2}}'>
+          
+          <scroll-view class='brand-list-item-box' scroll-y="true">
+            <block wx:for="{{carModelList}}" wx:key="cmKey">
+              <view class='brand-list-title' bindtap='allModel' wx:if="{{index== 0}}">
+                <image src='{{chooseCarModel.brand_icon}}'></image>
+                <span>{{chooseCarModel.brand_name}}全车系</span>
+              </view>
+              <view class='brand-mid-line'></view>
+              <view class='brand-list-title'>
+                <image src='{{chooseCarModel.brand_icon}}'></image>
+                <span>{{item.title}}</span>
+              </view>
+              <view class='brand-mid-line'></view>
+              <view class='brand-list-item' wx:for="{{item.car}}" wx:key="brandIn" wx:for-item='brandIn' wx:for-key="brandIn" bindtap='chooseModel' data-modelinfo="{{brandIn}}" >{{brandIn.series_name}}</view>
+            </block>
+          </scroll-view>
+        </view>
+      </view> 
+      <!-- 地区  -->
+      <view class='city-wrapper' hidden='{{!menuChoose_2}}'> 
+        <block>
+          <scroll-view style='padding-top:180rpx;' class="list-scroll {{config.search?'top':''}}" scroll-y="true" scroll-into-view="{{jumpNum}}" scroll-with-animation="{{false}}">
+            <view class="brand_all" catchtap='cityAll'>全国</view>
+            <view id="{{'index'+index}}" wx:for="{{cityData}}" wx:key="key">
+              <view class='list-title'>{{item.initial}}</view>
+              <view class='{{index===0&&config.horizontal&&item.type==="hot"?"list-horizontal":""}}'>
+                <view class='list-name {{idx === 0 ?"":"border"}}' wx:for="{{item.list}}" wx:for-item="city" wx:for-index="idx" wx:key="city" data-detail="{{city}}" catchtap='detailMtCity'>
+                  {{city.city_name}}
+                </view>
+              </view>
+
+            </view>
+          </scroll-view>
+          <view class='list-right-wrapper' bindtouchstart='jumpMt' bindtouchmove='jumpMtScroll'>
+            <view class='right-item' wx:for="{{rightArrCity}}" wx:key="rightArr" data-id="{{rightArrCity[index]}}" catchtap='jumpMt'>
+              {{rightArrCity[index]}}
+            </view>
+          </view>
+        </block>
+      </view> 
+      <!-- 价格  -->
+      <view class='popup-box-item popup-box-price' hidden='{{!menuChoose_3}}'>
+        <view class='popup-box-list-item' bindtap="filterTap" wx:for="{{priceList}}" wx:key="priceListKey" data-filtype="price" data-filcont="{{item.value}}" data-filtext="{{item.name}}">{{item.name}}</view>
+      </view>
+
+      <!-- 排序  -->
+      <view class='popup-box-item popup-box-price' hidden='{{!menuChoose_4}}'>
+        <view class='popup-box-list-item' bindtap="filterTap" data-filtype="order" data-filcont="0" data-filtext="默认排序">默认排序</view>
+        <view class='popup-box-list-item' bindtap="filterTap" data-filtype="order" data-filcont="5" data-filtext="上架时间最长">上架时间最长</view>
+        <view class='popup-box-list-item' bindtap="filterTap" data-filtype="order" data-filcont="1" data-filtext="上架时间最短">上架时间最短</view>
+        <view class='popup-box-list-item' bindtap="filterTap" data-filtype="order" data-filcont="8" data-filtext="价格最高">价格最高</view>
+        <view class='popup-box-list-item' bindtap="filterTap" data-filtype="order" data-filcont="4" data-filtext="价格最低">价格最低</view>
+      </view>
+      <!-- 普通蒙版  -->
+      <view class='popup-mask' bindtap='hidAllMenu' hidden='{{!(menuChoose_3 || menuChoose_4)}}' ></view>
+      
+    </view>
+
+   <!-- 头部内菜单  -->
+    <view class='popup-box top-popup' hidden="{{!(menuChoose_5)}}">
+      <!-- 高层蒙版  -->
+      <view class='popup-mask mask-in' bindtap='hidAllMenu' hidden='{{!(menuChoose_5)}}' ></view>
+      <!-- 筛选  -->
+      <view class='popup-box-item popup-box-filter' hidden='{{!menuChoose_5}}'>
+        <view class='filter-item'>
+          <view class='filter-item-title'>
+            <span class="title-line"></span><span>车身颜色</span>
+          </view>
+          <view class='filter-item-btn-box'>
+            <span wx:for="{{bodyColorList}}" bindtap="chooseBodyColor" wx:key="key" 
+            style="{{car_car_color == item.name ? 'color:white;background:#FB4B4B;border-color:#FB4B4B' : ''}}" data-bodycolor="{{item.name}}" data-bodycolorid="{{item.name}}">{{item.name}}</span>
+          </view>
+        </view>
+        <view class='filter-item'>
+          <view class='filter-item-title'>
+            <span class="title-line"></span><span>车规</span>
+          </view>
+          <view class='filter-item-btn-box car-rules' wx:key="rulelistkey" wx:for="{{rulesList}}">
+            <view class='filter-btn-box-l'>
+              <p>{{item.name}}:</p>
+            </view>
+            <view class='filter-btn-box-r'>
+            <span bindtap="chooseRules" data-firstid="{{item.name}}" data-rulekey="" data-ruleid="" style="{{car_second_type == '' && car_first_type == item.name ? 'color:white;background:#FB4B4B;border-color:#FB4B4B' : ''}}" wx:for-item="initem" wx:key="inkey">全部</span>
+              <span wx:for="{{item.child}}" bindtap="chooseRules" data-firstid="{{item.name}}" data-rulekey="{{initem.name}}" data-ruleid="{{initem.name}}" wx:key="rulekey" style="{{car_second_type == initem.name ? 'color:white;background:#FB4B4B;border-color:#FB4B4B' : ''}}" wx:for-item="initem" wx:key="inkey">{{initem.name}}</span>
+            </view>
+          </view>
+          
+        </view>
+        <view class='filter-item'>
+          <view class='filter-item-title'>
+            <span class="title-line"></span><span>价格</span>
+          </view>
+          <view class='filter-item-price-input'>
+            <input type='number' value='{{minPrice}}' bindinput="priceInput" data-inputtype="0" placeholder='最低价格'></input>到
+            <input type='number' value='{{maxPrice}}' bindinput="priceInput" data-inputtype="1" placeholder='最高价格'></input>万元
+          </view>
+          <view class='filter-item-btn-box car-price'>
+              <span class='popup-box-list-item' bindtap="choosePrice" wx:for="{{priceList}}" wx:key="priceListKey" data-filtype="price" style="{{car_dealer_price == item.value ? 'color:white;background:#FB4B4B;border-color:#FB4B4B' : ''}}" data-filcont="{{item.value}}" data-filid="{{item.id}}" data-filtext="{{item.name}}">{{item.name}}</span>
+          </view>
+        </view>
+
+        <view class='filter-btn-box'>
+          <view class='filter-btn' bindtap='carListRest'>重置</view>
+          <view class='filter-btn confirm-btn' bindtap='filterConfirm'>确定</view>
+        </view>
+
+
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索覆层  -->
+  <view class='search-pop-box' hidden='{{!searStatus}}'>
+    <view class='header-search search-pop-header'>
+      <input type='text' value='{{car_keyword}}' maxlength='20' bindconfirm="searchFun"  confirm-type="search"  bindinput='setSearchText' placeholder='请输入搜索关键词'></input>
+      <image hidden='{{car_keyword.length > 0 ? true : false}}' src='{{serverUrl}}/image/search.png'></image>
+      <span class="search-btn" bindtap="searchFun">搜索</span>
+    </view>
+    <view class='search-pop-body'>
+      <view class='search-pop-title'>历史搜索</view>
+      <view class='search-history-box'>
+        <span wx:key='searchKey' wx:for="{{searchHistory}}" bindtap="hisSearchBtn" data-searchval='{{item}}' class="{{item.length >= 5 ? 'big-btn' : ''}}">{{item}}</span>
+      </view>
+      <view class='search-clear-btn' bindtap="clearSearchHis">
+        <image src='{{serverUrl}}/image/delete.png'></image>
+        清空查询记录
+      </view>
+    </view>
+  </view>
+
+  
+  <view class='cars-list-block'>
+    <!-- <scroll-view scroll-y class='car-scroll-box'> -->
+      <view class='cars-list-box' hidden='{{(carList.length == 0 && car_keyword.length > 0)}}'>
+        <view wx:key='{{key}}' class='cars-list-item' wx:for="{{carList}}" data-carinfo="{{item}}" data-cartype="new" bindtap='goDet'>
+          <view class='cars-list-item-l'>
+            <image src='{{item.img}}'></image>
+          </view>
+          <view class='cars-list-item-r'>
+            <view style='position:relative'>
+            <p class="cars-name">[{{item.provice_name}}] {{item.model_name}}</p>
+            <p class="cars-info">颜色：{{m1.colorSub(item.car_color)}} 数量：{{item.stock}}辆</p>
+            <p class="cars-price">{{m1.priceToFix(item.dealer_price)}}万元</p>
+            </view>
+            <p class="cars-company">{{item.enterprise_name}}</p>
+          </view>
+        </view>
+      </view>
+      <view class='no-search-list' hidden='{{!listIsNull}}'>
+        <view>没有找到{{car_keyword ? '“'+(car_keyword.length > 8? m1.maxStrSub(car_keyword) : car_keyword)+'”的' : ''}}搜索结果</view>
+        <view class='reset-list-btn' bindtap='carListRest'>点击查看全部车源</view>
+      </view>
+    <!-- </scroll-view> -->
+  </view>
+
+
+  
+  
+
+
+  <!-- 底部  -->
+  <view class='bottom-box'>
+    <view bindtap='changeChildPage' data-btn="1" class="bottom-btn btn_1 {{ childPage == '1' ? 'btn_act' :''}}">
+      <image src="{{serverUrl}}/image/btn_1{{ childPage == '1' ? '_act' :''}}.png"></image>
+      <p>首页</p>
+    </view> 
+    <view bindtap='changeChildPage' data-btn="2" class="bottom-btn btn_2 {{ childPage == '2' ? 'btn_act' :''}}">
+      <image src="{{serverUrl}}/image/btn_2{{ childPage == '2' ? '_act' :''}}.png"></image>
+      <p>新车</p>
+    </view>
+    <view bindtap='changeChildPage' data-btn="3" class="bottom-btn btn_1 {{ childPage == '3' ? 'btn_act' :''}}">
+      <image src="{{serverUrl}}/image/btn_3{{ childPage == '3' ? '_act' :''}}.png"></image>
+      <p>二手车</p>
+    </view> 
+  </view>
+<!-- </view> -->
+ </scroll-view> 

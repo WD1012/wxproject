@@ -1,0 +1,102 @@
+.main-container{
+  text-align: left
+}
+.top-banner{
+  width: 100%;
+}
+.top-banner image{
+  width: 100%;
+  height: 300rpx;
+}
+.input-box{
+  margin-top: 50rpx;
+  padding: 0 75rpx;
+}
+.input-box .input-item-li{
+  overflow: hidden;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-bottom: 1px solid #e5e5e5;
+}
+.input-box .input-item-li image{
+  width: 34rpx;
+  height: 51rpx;
+  float: left;
+  margin-right: 30rpx;
+  margin-top: 20rpx;
+}
+.input-box .input-item-li input{
+  height: 90rpx;
+  font-size: 30rpx;
+  float: left;
+}
+.input-box .input-item-li.vercode-input image{
+  width: 36rpx;
+  height: 32rpx;
+  float: left;
+  margin-right: 30rpx;
+  margin-top: 30rpx;
+}
+.input-box .input-item-li.pwd-input image{
+  width: 36rpx;
+  height: 44rpx;
+  float: left;
+  margin-right: 30rpx;
+  margin-top: 20rpx;
+}
+.input-box .input-item-li.vercode-input input{
+  width: 50%;
+}
+.vercode-input .vercode-btn{
+  float: right;
+  width: 200rpx;
+  height: 60rpx;
+  display: block;
+  margin-top: 15rpx;
+  font-size: 30rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border-radius: 4rpx;
+  border: 1rpx solid #FB4B4B; 
+  color: #FB4B4B;
+}
+.vercode-input .vercode-btn:active{
+  background: #FB4B4B;
+  color: white;
+}
+.login-btn{
+  width: 600rpx;
+  height: 140rpx;
+  text-align: center;
+  position: relative;
+  line-height: 90rpx;
+  font-size: 36rpx;
+  color: white;
+  margin-top: 60rpx;
+}
+.login-btn span{
+  position: relative;
+}
+.login-btn image{
+  width: 600rpx;
+  height: 140rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.login-bot-box{
+  position: absolute;
+  bottom: 40rpx;
+  width: 35%;
+  left: 50%;
+  margin-left: -17.5%;
+  overflow: hidden;
+  font-size: 30rpx;
+  color: #FB4B4B;
+}
+.login-bot-box span:first-child{
+  float: left;
+}
+.login-bot-box span:last-child{
+  float: right;
+}

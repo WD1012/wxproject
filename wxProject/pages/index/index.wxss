@@ -1,0 +1,266 @@
+page{
+  background-color: #EFEFF4;
+}
+.main-container{
+  padding-bottom: 150rpx;
+}
+.header-banner{
+  width: 100%;
+  height: 290rpx;
+}
+.header-banner image{
+  width: 100%;
+  height: 100%;
+}
+.cars-list-block{
+  background: white;
+}
+swiper{
+  height: 100% !important;
+}
+.cars-list-title{
+  height: 76rpx;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+  color: #4a4a4a;
+  line-height: 76rpx;
+  overflow: hidden;
+  position: relative;
+}
+.cars-list-title .cars-title-line{
+  display: inline-block;
+  width: 6rpx;
+  height: 27rpx;
+  background: #FB4B4B;
+  transform: translateY(4rpx);
+  margin-right: 11rpx;
+  border-bottom-left-radius:3rpx;
+  border-bottom-right-radius:3rpx;
+  border-top-left-radius:3rpx;
+  border-top-right-radius:3rpx;
+}
+.cars-list-title::after{
+  content: " ";
+  position: absolute;
+  right: 30rpx;
+  left: 30rpx;
+  bottom: 0;
+  border-bottom: 1px solid #dbdbdb;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+}
+.more-btn{
+  float: right;
+  font-size: 24rpx;
+  color: #9b9b9b;
+}
+.right-arrow{
+  display: inline-block;
+  width: 18rpx;
+  height: 24rpx;
+  transform: translateY(2rpx);
+  margin-left: 10rpx;
+}
+.right-arrow image{
+  width: 100%;
+  height: 100%;
+}
+.cars-list-block{
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+.cars-list-item{
+  display: flex;
+  display: -webkit-flex;
+  padding: 20rpx 30rpx 30rpx 30rpx;
+  position: relative;
+}
+.cars-list-item::after{
+  content: " ";
+  position: absolute;
+  right: 30rpx;
+  left: 30rpx;
+  bottom: 0;
+  border-bottom: 1px solid #dbdbdb;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+}
+.cars-list-item:last-child::after{
+  border-bottom: 0;
+}
+.cars-list-item-l{
+  width: 250rpx;
+  height: 170rpx;
+  margin-right: 20rpx;
+}
+.cars-list-item-l image{
+  width: 250rpx;
+  height: 170rpx;
+}
+.cars-list-item-r{
+  position: relative;
+}
+.cars-list-item-r p{
+  font-size: 28rpx;
+  display: block;
+}
+.cars-list-item-r p.cars-price{
+  color: #F65B55;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.cars-list-item-r p.cars-info{
+  font-size: 24rpx;
+  color: #9B9B9B;
+  position: absolute;
+  bottom: 45rpx;
+}
+.bottom-box{
+  position: fixed;
+  width: 100%;
+  height: 98rpx;
+  background: white;
+  left: 0;
+  bottom: 0;
+  padding: 0 4%;
+  display: flex;
+  display: -webkit-box;
+}
+.bottom-box::after{
+  content: " ";
+  position: absolute;
+  right: 0rpx;
+  left: 0rpx;
+  top: 0;
+  border-top: 1px solid #dbdbdb;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);  
+}
+.bottom-box .bottom-btn{
+  flex: 1;
+}
+.bottom-btn{
+  width: 30.6%;
+  text-align: center;
+}
+.bottom-btn image{
+  width: 56rpx;
+  height: 56rpx;
+}
+.bottom-btn p{
+  display: block;
+  font-size: 20rpx;
+  margin-top: -7rpx;
+  color: #7F8389;
+}
+.btn_act p{
+  color: #FB4B4B;
+}
+.bottom-btn image{
+  margin-top: 10rpx;
+}
+.btn_1 image{
+  transform: translateX(2rpx)
+}
+.btn_2 image{
+  transform: translateX(0rpx)
+}
+.login-out-btn{
+  position: fixed;
+  width: 90rpx;
+  height: 91rpx;
+  bottom: 100rpx;
+  right: 15rpx;
+}
+.login-out-btn image{
+  width: 100%;
+  height: 100%;
+}
+.car-icon-item{
+  width: 25%;
+  float: left;
+  text-align: center;
+  font-size: 28rpx;
+  margin-top: 30rpx;
+}
+.car-icon-list{
+  padding-bottom: 30rpx;
+  overflow: hidden;
+}
+.car-icon-item image{
+  width: 31rpx;
+  height: 31rpx;
+  margin-right: 10rpx;
+}
+.car-icon-item span{
+  max-width: 120rpx;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ad-box{
+  padding: 40rpx 0 30rpx 0;
+}
+.ad-area-title{
+  text-align: center;
+}
+.ad-area-title image{
+  width: 225rpx;
+  height: 40rpx;
+}
+.ad-simple{
+  width: 100%;
+  overflow: hidden;
+}
+.ad-simple image{
+  width: 100%;
+  float: left;
+}
+.ad-double{
+  height: 210rpx;
+  width: 100%;
+  overflow: hidden
+}
+.ad-double image{
+  width: 50%;
+  float: left;
+  height: 210rpx;
+}
+.ad-multi{
+  height: 255rpx; 
+  width: 100%;
+  padding-top: 15rpx;
+  padding-bottom: 40rpx;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.ad-multi .ad-multi-scroll{
+  height: 255rpx !important;
+  white-space: nowrap;
+}
+.ad-multi image{
+  width: 202rpx;
+  height: 255rpx;
+  display:inline-block;
+  margin-right: 10rpx;
+  border-radius: 10rpx;
+}
+.ad-multi image:first-child{
+  margin-left: 23rpx;
+}
+.multi-det-btn{
+  margin-right: 23rpx;
+  width: 202rpx;
+  height: 255rpx;
+  border-radius: 10rpx;
+  background: white;
+  display: inline-block;
+}

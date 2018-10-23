@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#FB4B4B",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "第1车贷",
+  "backgroundColor": "#FB4B4B",
+  "backgroundTextStyle": "light",
+  "enablePullDownRefresh":true
+}

@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#FB4B4B",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "二手车",
+  "backgroundColor": "#FB4B4B",
+  "backgroundTextStyle": "light",
+  "enablePullDownRefresh": true
+}

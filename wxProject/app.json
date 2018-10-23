@@ -1,0 +1,17 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/login/login",
+    "pages/det/det",
+    "pages/newcar/newcar",
+    "pages/oldcar/oldcar",
+    "pages/register/register",
+    "pages/forgetpwd/forgetpwd"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#FB4B4B",
+    "navigationBarTitleText": "第1车贷",
+    "navigationBarTextStyle":"white"
+  }
+}

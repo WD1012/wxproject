@@ -1,0 +1,25 @@
+<!--login.wxml-->
+<view class="main-container">
+  <view class='input-box'>
+    <view class='input-box-item'>
+      *<input type='number' maxlength='16' bindinput='phoneInput' placeholder='请输入手机号'></input>
+    </view>
+    <view class='input-box-item vercode-input'>
+      *<input type='number' bindinput='vercodeInput' maxlength='6' placeholder='请输入短信验证码'></input>
+      <span class="vercode-btn" bindtap='getVercode'>{{timeStep == 60? '获取验证码' : timeStep+'s'}}</span>
+    </view>
+  </view>
+
+  <view class='input-box'>
+    <view class='input-box-item'>
+      *<input type='text' bindinput='pwdInput' password='true' maxlength='16' placeholder='请设置密码'></input>
+    </view>
+    <view class='input-box-item'>
+      *<input type='text' bindinput='repwdInput' password='true' maxlength='16' placeholder='请再次输入密码'></input>
+    </view>
+  </view>
+
+  <view class='submit-btn' bindtap='forgetSub'>提交</view>
+
+
+</view>

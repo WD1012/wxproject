@@ -1,0 +1,68 @@
+page{
+  background: #efeff4;
+}
+.input-box{
+  background: white;
+  padding-left: 30rpx;
+  margin-bottom: 20rpx;
+}
+.input-box-item{
+  display: flex;
+  display: -webkit-flex;
+  font-size: 30rpx;
+  height: 90rpx;
+  line-height: 90rpx; 
+  color: #FC6442; 
+  position: relative;
+}
+.input-box .input-box-item::after{
+  content: " ";
+  position: absolute;
+  right: 0rpx;
+  left: 0rpx;
+  bottom: 0;
+  border-bottom: 1px solid #dbdbdb;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);  
+}
+.input-box-item input{
+  height: 90rpx;
+  color: initial;
+  padding-left: 5rpx;
+  width: 80%;
+  font-size: 30rpx;
+}
+.vercode-input input{
+  width: 60%;
+}
+.vercode-btn{
+  display: inline-block;
+  width: 190rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  color: #FB4B4B;
+  border: 1px solid #FB4B4B;
+  border-radius: 4rpx;
+  margin-top: 14rpx;
+  position: absolute;
+  right: 30rpx;
+}
+.vercode-btn:active{
+  background: #FB4B4B;
+  color: white;
+}
+.submit-btn{
+  width: 670rpx;
+  height: 94rpx;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 60rpx;
+  border-radius: 4rpx;
+  font-size: 36rpx;
+  color: white;
+  background: #FB4B4B;
+  line-height: 94rpx;
+}
